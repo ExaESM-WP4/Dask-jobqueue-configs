@@ -1,2 +1,3 @@
-# dask-jobqueue-configs
+# Dask-Jobqueue Configs
+
 Hold Dask-Jobqueue configurations

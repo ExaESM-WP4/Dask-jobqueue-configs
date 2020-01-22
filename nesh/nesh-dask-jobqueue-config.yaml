@@ -1,0 +1,31 @@
+
+jobqueue:
+
+  nesh-jobqueue-config:
+
+    # Dask jobqueue worker options
+    cores: 4
+    memory: 24GB
+    processes: 1 # for pure Numpy workloads
+
+    # PBS resource options
+    queue: clmedium
+    resource_spec: 'elapstim_req=00:45:00,cpunum_job=4,memsz_job=24gb' # use 12.5% of clmedium execution host resources
+
+    # Machine specific options
+    interface: ib0 # mandatory as workers can't connect to Dask scheduler otherwise
+    local-directory: /scratch
+    
+    # Nesh PBS workarounds
+    walltime: null # gets parsed to None, so that the walltime header line is skipped during job script generation; mandatory as the PBS scheduler doesn't have a walltime argument... 
+    job-extra: ['-o dask_jobqueue_logs/dask-worker.o%s', # manually provide file paths
+                '-e dask_jobqueue_logs/dask-worker.e%s']
+
+    # Mandatory options for standalone configurations
+    project: null
+    name: dask-worker
+    death-timeout: 60
+    extra: []
+    env-extra: []
+    log-directory: null # this option can't be used on Nesh, as Dask jobqueue correctly handles only directories and Nesh PBS expects file paths; see workaround above!
+    shebang: '#!/bin/bash'

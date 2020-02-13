@@ -1,0 +1,41 @@
+
+jobqueue:
+
+  juwels-jobqueue-config:
+
+    ### Dask jobqueue worker options ###
+
+    # specify complete node resources
+    # as compute time is charged using XXXXXXXX
+
+    cores: 96        # based on 24 physical cores via hyperthreading
+    memory: 90000M   # via `scontrol show node jwc00n018`
+    processes: 1
+
+    local-directory: /tmp
+    interface: ib0
+
+    death-timeout: 60
+
+    ### SLURM job script options ####
+
+    shebang: '#!/usr/bin/env bash'
+    walltime: '00:15:00'
+    log-directory: dask_jobqueue_logs
+    name: dask-worker
+
+    # depends on project affiliation
+    # and should be set manually!
+    queue: null
+    project: null
+
+    # these are automatically set
+    # by the Dask worker options above
+    job-cpu: null
+    job-mem: null
+
+    # mandatory for
+    # standalone configurations
+    job-extra: []
+    extra: []
+    env-extra: []

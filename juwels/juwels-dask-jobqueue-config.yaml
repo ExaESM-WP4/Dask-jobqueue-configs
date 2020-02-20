@@ -7,11 +7,14 @@ jobqueue:
 
     cores: 96        # use full node CPU and memory resources
     memory: 90000M   # e.g. $ control show node jwc00n018
-    processes: 1
+    
+    processes: 1     # good only for pure Numpy workflows
 
     local-directory: /tmp
-    interface: ib0
     death-timeout: 60
+
+    extra: ['--host ${SLURMD_NODENAME}.ib.juwels.fzj.de'] # globally visible compute node network location
+    interface: null  # don't use this option!
 
     ### SLURM job script options ####
 
@@ -36,5 +39,4 @@ jobqueue:
     # standalone configurations
     
     job-extra: []
-    extra: []
     env-extra: []
